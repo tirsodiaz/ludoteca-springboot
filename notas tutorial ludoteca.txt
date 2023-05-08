@@ -1,0 +1,80 @@
+curso cca (Armen)
+https://ccsw-csd.github.io/tutorial/site/
+2 semanas para los 3 listados (incluído angular version 11)
+1 semana para hazlo tú
+
+Juan alcala alonso de openbank llamar despues de formacion
+Jordi Rius Caixa
+
+angular a partir de la4, no angular js (angular js que es diferente a nodejs)
+servicios de angular
+type script librería
+curso capgemini
+https://www.cousera.org/programs/capgemini-learning-program-71mtd/browse?productId=7KOMkK4bEeaXlg7d4yL0LA&productType=course&query=angular&showMiniModal=true&source=search
+https://www.coursera.org/programs/capgemini-learning-program-71mtd/browse?productId=xo4iJCUQEeuHsgrcqIyowQ&productType=course&query=type+script&showMiniModal=true&source=search
+
+
+visual studio code
+https://code.visualstudio.com/
+
+Nodejs, con esta herramienta podremos compilar y ejecutar aplicaciones basadas en Javascript y Typescript, e instalar y gestionar las dependencias de las aplicaciones (npm update para las dependencias)
+Angular CLI capa de lógica de negocio por encima de Nodejs
+https://angular.io/cli#command-overview (comandos angular):
+npm install -g @angular/cli 
+npm uninstall -g angular-cli (ayuda en https://angular.io/cli#command-overview)
+npm cache clean -force npm cache clear --force
+npm config set registry https://registry.npmjs.org
+npm config get registry
+crear proyecto desde terminal visual studio ng new carpeta proyecto --strict=false
+ng serve arrancar el proyecto dvisualesde carpeta proyecto (comprobar http://localhost:4200/)
+ng add @angular/material (añadir librería de componentes)
+ng generate module core (CREATE src/app/core/core.module.ts)
+ng generate component core/header
+ng generate module category
+ng generate component category/category-list
+ng generate service category/category
+ng generate component category/category-edit
+
+Un linter es una herramienta que nos ayuda a seguir las buenas prácticas o guías de estilo de nuestro código fuente
+Git Hooks son scripts de shell que se ejecutan automáticamente antes o después de Commit o Push
+No declarar los servicios en el provides, sino usar un decorador
+Lazy Load es un patrón de diseño que consiste en retrasar la carga o inicialización
+https://angular.io/docs (documentación angular) 
+https://material.angular.io/components/categories (web de componentes)
+
+
+
+spring boot
+https://start.spring.io/
+https://spring.io/projects/spring-boot
+https://www.baeldung.com/spring-tutorial
+spring data: (ver sus querys spring.jpa.show-sql=true)
+1. List<Game> findByName(String name);
+2. Anotación @Query https://www.baeldung.com/spring-data-jpa-query
+3. join 1 query @EntityGraph(attributePaths = {"category", "author"}) https://www.baeldung.com/jpa-entity-graph (si @ManyToOne en entity)
+4. specifications mayor flexibilidad https://www.baeldung.com/rest-api-search-language-spring-data-specifications
+
+si monolito llamadas desde capa service a otros servicios del monolito
+en caso contrario llamadas a endpoints microservicios a los controller mediante interfaces o clientes feign
+
+medio ambiente
+isabel 4530 4531
+
+secretaria
+2201
+2202
+2221
+
+recaudacion
+2401
+
+allianz cliente
+900300250
+
+31.74 tasas ppp
+21.00 certificado veterinario
+40 psicotécnico
+
+
+
+
