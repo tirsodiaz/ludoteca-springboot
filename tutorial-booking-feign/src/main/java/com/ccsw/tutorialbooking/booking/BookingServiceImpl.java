@@ -12,7 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.ccsw.tutorialbooking.booking.exceptions.MyExceptions;
+import com.ccsw.tutorialbooking.booking.exceptions.MyBadExceptions;
+import com.ccsw.tutorialbooking.booking.exceptions.MyConflictExceptions;
 import com.ccsw.tutorialbooking.booking.model.Booking;
 import com.ccsw.tutorialbooking.booking.model.BookingDto;
 import com.ccsw.tutorialbooking.booking.model.BookingSearchDto;
@@ -79,27 +80,25 @@ public class BookingServiceImpl implements BookingService {
      * @throws Exception
      */
     @Override
-    public ResponseEntity<Void> save(Long id, BookingDto dto) throws Exception {
+    public ResponseEntity<Void> save(Long id, BookingDto dto) throws MyBadExceptions, MyConflictExceptions {
 
         Booking booking;
 
         // reglas de negocio
         if (dto.getFin().before(dto.getInicio())) {
-            throw new Exception("Fecha Inicio > Fecha Fin");
+            throw new MyBadExceptions("Fecha Inicio > Fecha Fin");
         }
         Instant instant1 = dto.getInicio().toInstant();
         Instant instant2 = dto.getFin().toInstant();
         if (Duration.between(instant1, instant2).toDays() > 15) {
-            // throw new Exception("Periodo Prestamo > 15 dias");
-            throw new MyExceptions("Periodo Prestamo > 15 dias");
+            throw new MyConflictExceptions("Periodo Prestamo > 15 dias");
         }
 
         List<Booking> bookingListByCustomer = findAll(dto.getCustomer().getId(), null, null, null);
         if (bookingListByCustomer.size() >= 2) {
             StringBuffer sb = new StringBuffer("Prestamos por customer >= 2, (");
             sb.append(bookingListByCustomer.size()).append(")");
-            // throw new Exception(sb.toString());
-            throw new MyExceptions(sb.toString());
+            throw new MyConflictExceptions(sb.toString());
         }
 
         List<Booking> bookingListByGame = findAll(null, null, null, dto.getGame().getId());
@@ -110,8 +109,7 @@ public class BookingServiceImpl implements BookingService {
         if (lista.size() > 0) {
             StringBuffer sb = new StringBuffer("Game reservado por interseccion fecha inicio [");
             sb.append(lista.get(0).getInicio()).append("-").append(lista.get(0).getFin()).append("]");
-            // throw new Exception(sb.toString());
-            throw new MyExceptions(sb.toString());
+            throw new MyConflictExceptions(sb.toString());
         }
 
         lista = bookingListByGame.stream().filter(b -> b.getFin().after(dto.getInicio()))
@@ -119,8 +117,7 @@ public class BookingServiceImpl implements BookingService {
         if (lista.size() > 0) {
             StringBuffer sb = new StringBuffer("Game reservado por interseccion fecha fin [");
             sb.append(lista.get(0).getInicio()).append("-").append(lista.get(0).getFin()).append("]");
-            // throw new Exception(sb.toString());
-            throw new MyExceptions(sb.toString());
+            throw new MyConflictExceptions(sb.toString());
         }
 
         lista = bookingListByGame.stream().filter(b -> b.getFin().after(dto.getFin()))
@@ -128,8 +125,7 @@ public class BookingServiceImpl implements BookingService {
         if (lista.size() > 0) {
             StringBuffer sb = new StringBuffer("Game reservado por interseccion fecha inicio y fecha fin [");
             sb.append(lista.get(0).getInicio()).append("-").append(lista.get(0).getFin()).append("]");
-            // throw new Exception(sb.toString());
-            throw new MyExceptions(sb.toString());
+            throw new MyConflictExceptions(sb.toString());
         }
 
         lista = bookingListByGame.stream().filter(b -> b.getInicio().equals(dto.getInicio()))
@@ -137,8 +133,7 @@ public class BookingServiceImpl implements BookingService {
         if (lista.size() > 0) {
             StringBuffer sb = new StringBuffer("Game reservado por interseccion idéntica fecha inicio y fecha fin [");
             sb.append(lista.get(0).getInicio()).append("-").append(lista.get(0).getFin()).append("]");
-            // throw new Exception(sb.toString());
-            throw new MyExceptions(sb.toString());
+            throw new MyConflictExceptions(sb.toString());
         }
 
         if (id == null) {

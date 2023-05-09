@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 
+import com.ccsw.tutorialbooking.booking.exceptions.MyBadExceptions;
+import com.ccsw.tutorialbooking.booking.exceptions.MyConflictExceptions;
 import com.ccsw.tutorialbooking.booking.model.Booking;
 import com.ccsw.tutorialbooking.booking.model.BookingDto;
 import com.ccsw.tutorialbooking.booking.model.BookingSearchDto;
@@ -36,7 +38,7 @@ public interface BookingService {
      * @return
      * @throws Exception
      */
-    ResponseEntity<Void> save(Long id, BookingDto dto) throws Exception;
+    ResponseEntity<Void> save(Long id, BookingDto dto) throws MyBadExceptions, MyConflictExceptions;
 
     /**
      * Borra una reserva por identificador

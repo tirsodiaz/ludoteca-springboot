@@ -6,8 +6,6 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ccsw.tutorialbooking.booking.exceptions.MyBadExceptions;
+import com.ccsw.tutorialbooking.booking.exceptions.MyConflictExceptions;
 import com.ccsw.tutorialbooking.booking.model.Booking;
 import com.ccsw.tutorialbooking.booking.model.BookingDto;
 import com.ccsw.tutorialbooking.booking.model.BookingSearchDto;
@@ -105,21 +105,9 @@ public class BookingController {
      */
     @Operation(summary = "Save or Update", description = "Method that saves or updates a Booking")
     @RequestMapping(path = { "", "/{id}" }, method = RequestMethod.PUT)
-    public ResponseEntity<Void> save(@PathVariable(name = "id", required = false) Long id, @RequestBody BookingDto dto)
-            throws Exception {
-
+    public void save(@PathVariable(name = "id", required = false) Long id, @RequestBody BookingDto dto)
+            throws MyBadExceptions, MyConflictExceptions {
         bookingService.save(id, dto);
-
-//        try {
-//            bookingService.save(id, dto);
-//        } catch (Exception e) {
-//            HttpHeaders headers = new HttpHeaders();
-//            headers.add("error", e.getMessage());
-//            return new ResponseEntity<Void>(headers, HttpStatus.BAD_REQUEST);
-//        }
-
-        return new ResponseEntity<Void>(HttpStatus.OK);
-
     }
 
     /**
