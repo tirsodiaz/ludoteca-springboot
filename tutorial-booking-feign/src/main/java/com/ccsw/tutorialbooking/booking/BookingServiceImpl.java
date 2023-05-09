@@ -91,14 +91,14 @@ public class BookingServiceImpl implements BookingService {
         Instant instant1 = dto.getInicio().toInstant();
         Instant instant2 = dto.getFin().toInstant();
         if (Duration.between(instant1, instant2).toDays() > 15) {
-            throw new MyConflictExceptions("Periodo Prestamo > 15 dias");
+            throw new MyBadExceptions("Periodo Prestamo > 15 dias");
         }
 
         List<Booking> bookingListByCustomer = findAll(dto.getCustomer().getId(), null, null, null);
         if (bookingListByCustomer.size() >= 2) {
             StringBuffer sb = new StringBuffer("Prestamos por customer >= 2, (");
             sb.append(bookingListByCustomer.size()).append(")");
-            throw new MyConflictExceptions(sb.toString());
+            throw new MyBadExceptions(sb.toString());
         }
 
         List<Booking> bookingListByGame = findAll(null, null, null, dto.getGame().getId());
@@ -124,14 +124,6 @@ public class BookingServiceImpl implements BookingService {
                 .filter(b -> b.getInicio().before(dto.getInicio())).toList();
         if (lista.size() > 0) {
             StringBuffer sb = new StringBuffer("Game reservado por interseccion fecha inicio y fecha fin [");
-            sb.append(lista.get(0).getInicio()).append("-").append(lista.get(0).getFin()).append("]");
-            throw new MyConflictExceptions(sb.toString());
-        }
-
-        lista = bookingListByGame.stream().filter(b -> b.getInicio().equals(dto.getInicio()))
-                .filter(b -> b.getFin().equals(dto.getFin())).toList();
-        if (lista.size() > 0) {
-            StringBuffer sb = new StringBuffer("Game reservado por interseccion idéntica fecha inicio y fecha fin [");
             sb.append(lista.get(0).getInicio()).append("-").append(lista.get(0).getFin()).append("]");
             throw new MyConflictExceptions(sb.toString());
         }
