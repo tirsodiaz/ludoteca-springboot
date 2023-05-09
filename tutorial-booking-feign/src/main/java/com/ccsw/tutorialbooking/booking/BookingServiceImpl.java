@@ -132,6 +132,15 @@ public class BookingServiceImpl implements BookingService {
             throw new MyExceptions(sb.toString());
         }
 
+        lista = bookingListByGame.stream().filter(b -> b.getInicio().equals(dto.getInicio()))
+                .filter(b -> b.getFin().equals(dto.getFin())).toList();
+        if (lista.size() > 0) {
+            StringBuffer sb = new StringBuffer("Game reservado por interseccion idéntica fecha inicio y fecha fin [");
+            sb.append(lista.get(0).getInicio()).append("-").append(lista.get(0).getFin()).append("]");
+            // throw new Exception(sb.toString());
+            throw new MyExceptions(sb.toString());
+        }
+
         if (id == null) {
             booking = new Booking();
         } else {
