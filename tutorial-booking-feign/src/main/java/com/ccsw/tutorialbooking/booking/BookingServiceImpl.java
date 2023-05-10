@@ -95,6 +95,9 @@ public class BookingServiceImpl implements BookingService {
         }
 
         List<Booking> bookingListByCustomer = findAll(dto.getCustomer().getId(), null, null, null);
+        if (id != null)
+            bookingListByCustomer.remove(get(id));
+
         if (bookingListByCustomer.size() >= 2) {
             StringBuffer sb = new StringBuffer("Prestamos por customer >= 2, (");
             sb.append(bookingListByCustomer.size()).append(")");
