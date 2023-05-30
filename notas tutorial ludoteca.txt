@@ -1,10 +1,4 @@
-curso cca (Armen)
 https://ccsw-csd.github.io/tutorial/site/
-2 semanas para los 3 listados (incluído angular version 11)
-1 semana para hazlo tú
-
-Juan alcala alonso de openbank llamar despues de formacion
-Jordi Rius Caixa
 
 angular a partir de la4, no angular js (angular js que es diferente a nodejs)
 servicios de angular
@@ -18,14 +12,14 @@ visual studio code
 https://code.visualstudio.com/
 
 Nodejs, con esta herramienta podremos compilar y ejecutar aplicaciones basadas en Javascript y Typescript, e instalar y gestionar las dependencias de las aplicaciones (npm update para las dependencias)
-Angular CLI capa de lógica de negocio por encima de Nodejs
+Angular CLI capa de lógica de negocio por encima de Nodejs (similar al yeoman para backend)
 https://angular.io/cli#command-overview (comandos angular):
 npm install -g @angular/cli 
 npm uninstall -g angular-cli (ayuda en https://angular.io/cli#command-overview)
 npm cache clean -force npm cache clear --force
 npm config set registry https://registry.npmjs.org
 npm config get registry
-crear proyecto desde terminal visual studio ng new carpeta proyecto --strict=false
+crear proyecto desde terminal visual studio ng new carpetaproyecto --strict=false
 ng serve arrancar el proyecto dvisualesde carpeta proyecto (comprobar http://localhost:4200/)
 ng add @angular/material (añadir librería de componentes)
 ng generate module core (CREATE src/app/core/core.module.ts)

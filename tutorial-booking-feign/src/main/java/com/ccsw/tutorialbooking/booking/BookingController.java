@@ -41,7 +41,7 @@ public class BookingController {
     BookingService bookingService;
 
     // @Autowired
-    // DozerBeanMapper mapper; sobra dto y entity son diferentes no puede hacerse
+    // DozerBeanMapper mapper; sobra, dto y entity son diferentes no puede hacerse
     // mapeo automatico completo
 
     @Autowired
