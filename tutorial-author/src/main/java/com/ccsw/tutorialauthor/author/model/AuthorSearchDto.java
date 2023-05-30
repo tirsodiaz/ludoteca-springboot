@@ -1,6 +1,6 @@
 package com.ccsw.tutorialauthor.author.model;
 
-import com.ccsw.tutorialauthor.common.pagination.PageableRequest;
+import com.ccsw.tutorialauthor.common.pagination.Pageable;
 
 /**
  * @author ccsw
@@ -8,13 +8,13 @@ import com.ccsw.tutorialauthor.common.pagination.PageableRequest;
  */
 public class AuthorSearchDto {
 
-    private PageableRequest pageable;
+    private Pageable pageable;
 
-    public PageableRequest getPageable() {
+    public Pageable getPageable() {
         return pageable;
     }
 
-    public void setPageable(PageableRequest pageable) {
+    public void setPageable(Pageable pageable) {
         this.pageable = pageable;
     }
 }
