@@ -1,0 +1,101 @@
+https://ccsw-csd.github.io/tutorial/site/
+mvn -version
+java -version
+variables de entorno
+MAVEN_HOME
+C:\securitas\software\apache-maven-3.6.3
+
+Path
+C:\securitas\software\apache-maven-3.6.3\bin
+
+sourcetre https://www.youtube.com/watch?v=NwlZZfcv400
+github https://github.com/tirsodiaz
+
+angular a partir de la4, no angular js (angular js que es diferente a nodejs)
+servicios de angular
+type script librería
+curso capgemini
+https://www.cousera.org/programs/capgemini-learning-program-71mtd/browse?productId=7KOMkK4bEeaXlg7d4yL0LA&productType=course&query=angular&showMiniModal=true&source=search
+https://www.coursera.org/programs/capgemini-learning-program-71mtd/browse?productId=xo4iJCUQEeuHsgrcqIyowQ&productType=course&query=type+script&showMiniModal=true&source=search
+
+
+visual studio code
+https://code.visualstudio.com/
+
+Nodejs, con esta herramienta podremos compilar y ejecutar aplicaciones basadas en Javascript y Typescript, e instalar y gestionar las dependencias de las aplicaciones (npm update para las dependencias)
+Angular CLI capa de lógica de negocio por encima de Nodejs (similar al yeoman para backend)
+https://angular.io/cli#command-overview (comandos angular):
+npm install -g @angular/cli 
+npm uninstall -g angular-cli (ayuda en https://angular.io/cli#command-overview)
+npm cache clean -force npm cache clear --force
+npm config set registry https://registry.npmjs.org
+npm config get registry
+crear proyecto desde terminal visual studio ng new carpetaproyecto --strict=false
+ng serve arrancar el proyecto dvisualesde carpeta proyecto (comprobar http://localhost:4200/)
+ng add @angular/material (añadir librería de componentes)
+ng generate module core (CREATE src/app/core/core.module.ts)
+ng generate component core/header
+ng generate module category
+ng generate component category/category-list
+ng generate service category/category
+ng generate component category/category-edit
+
+Un linter es una herramienta que nos ayuda a seguir las buenas prácticas o guías de estilo de nuestro código fuente
+Git Hooks son scripts de shell que se ejecutan automáticamente antes o después de Commit o Push
+No declarar los servicios en el provides, sino usar un decorador
+Lazy Load es un patrón de diseño que consiste en retrasar la carga o inicialización
+https://angular.io/docs (documentación angular) 
+https://material.angular.io/components/categories (web de componentes)
+
+
+
+spring boot
+https://start.spring.io/
+https://spring.io/projects/spring-boot
+https://www.baeldung.com/spring-tutorial
+spring data: (ver sus querys spring.jpa.show-sql=true)
+1. List<Game> findByName(String name); https://www.baeldung.com/spring-data-derived-queries
+2. Anotación @Query https://www.baeldung.com/spring-data-jpa-query
+3. join 1 query @EntityGraph(attributePaths = {"category", "author"}) https://www.baeldung.com/jpa-entity-graph (si @ManyToOne en entity)
+4. specifications mayor flexibilidad https://www.baeldung.com/rest-api-search-language-spring-data-specifications (ante cambios se obtienen errores de compilación y no de ejecución)
+
+si monolito llamadas desde capa service a otros servicios del monolito
+en caso contrario llamadas a endpoints microservicios a los controller mediante interfaces como clientes feign
+
+
+http://localhost:8080/swagger-ui/index.html
+Accesos entre capas
+En base a la división por capas que hemos comentado arriba, y el resto de entidades implicadas, hay una serie de reglas importantísimas que debes seguir muy de cerca:
+
+Un Controlador
+NO debe contener lógica en su clase. Solo está permitido que ejecute lógica a través de una llamada al objeto de la capa Lógica.
+NO puede ejecutar directamente operaciones de la capa Acceso a Datos, siempre debe pasar por la capa Lógica.
+NO debe enviar ni recibir del cliente objetos de tipo Entity.
+Es un buen lugar para realizar las conversiones de datos entre Entity y Dto.
+En teoría cada operación debería tener su propio Dto, aunque los podemos reutilizar entre operaciones similares.
+Debemos seguir una coherencia entre todas las URL de las operaciones. Por ejemplo si elegimos save para guardar, usemos esa palabra en todas las operaciones que sean de ese tipo. Evitad utilizar diferentes palabras save, guardar, persistir, actualizar para la misma acción.
+Un Servicio
+NO puede llamar a objetos de la la capa Controlador.
+NO puede ejecutar directamente queries contra la BBDD, siempre debe pasar por la capa Acceso a Datos.
+NO debe llamar a Acceso a Datos que NO sean de su ámbito / competencia.
+Si es necesario puede llamar a otros Servicios para recuperar cierta información que no sea de su ámbito / competencia.
+Debe trabajar en la medida de lo posible con objetos de tipo Entity.
+Es un buen lugar para implementar la lógica de negocio.
+Un Acceso a Datos
+NO puede llamar a ninguna otra capa. Ni Controlador, ni Servicios, ni Acceso a Datos.
+NO debe contener lógica en su clase.
+Esta capa solo debe resolver el dato que se le ha solicitado y devolverlo a la capa de Servicios.
+
+Los datos que vienen y van al cliente, deberían ser en la mayoría de los casos datos en formato json
+Al entrar en un Controller esos datos json se transforman en un DTO. Al salir del Controller hacia el cliente, esos DTOs se transforman en formato json. Estas conversiones son automáticas, las hace Springboot (en realidad las hace la librería de jackson codehaus).
+Cuando un Controller ejecuta una llamada a un Service, generalmente le pasa sus datos en DTO, y el Service se encarga de transformar esto a una Entity. A la inversa, cuando un Service responde a un Controller, él responde con una Entity y el Controller ya se encargará de transformarlo a DTO.
+Por último, para los Repository, siempre se trabaja de entrada y salida con objetos tipo Entity.
+
+Pero de alguna forma tendremos que asignarle esos valores a la entidad Game. 
+Si conocemos sus ID que es lo que generalmente llega, podemos recuperar esos objetos de BBDD y asignarlos en el objeto Game. 
+Si recuerdas las reglas básicas, un Repository debe pertenecer a un solo Service, por lo que en lugar de llamar a métodos de los AuthorRepository y CategoryRepository desde nuestro GameServiceImpl, 
+debemos llamar a métodos expuestos en AuthorService y CategoryService, que son los que gestionan sus repositorios. Para ello necesitaremos crear esos métodos get en los otros Services.
+
+micro tutorial,     		game y gameDto ambas incorporan objetos = uso de entityGraph para lanzamiento 1 query, hay matcheo mediante DozerBeanMapper
+micro tutorial-game 		game y gameDto ninguno incorpora objetos  = hay matcheo mediante DozerBeanMapper
+micro tutotial-game-feign	game sin entities y gameDto con entities = no hay matcheo mediante DozerBeanMapper y debo construir Dtos previo uso de feign
