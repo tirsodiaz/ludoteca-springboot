@@ -29,6 +29,8 @@ public interface BookingService {
 
     Page<Booking> findAll(Long idCustomer, String inicio, String fin, List<Long> idGames, WrapperPageableRequest dto);
 
+    List<Booking> findAllBookingbyIdGames(List<Long> gameList);
+
     /**
      * Guarda o modifica una reserva, dependiendo de si el identificador está o no
      * informado

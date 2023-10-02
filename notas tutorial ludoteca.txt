@@ -75,7 +75,7 @@ Es un buen lugar para realizar las conversiones de datos entre Entity y Dto.
 En teoría cada operación debería tener su propio Dto, aunque los podemos reutilizar entre operaciones similares.
 Debemos seguir una coherencia entre todas las URL de las operaciones. Por ejemplo si elegimos save para guardar, usemos esa palabra en todas las operaciones que sean de ese tipo. Evitad utilizar diferentes palabras save, guardar, persistir, actualizar para la misma acción.
 Un Servicio
-NO puede llamar a objetos de la la capa Controlador.
+NO puede llamar a objetos de la capa Controlador.
 NO puede ejecutar directamente queries contra la BBDD, siempre debe pasar por la capa Acceso a Datos.
 NO debe llamar a Acceso a Datos que NO sean de su ámbito / competencia.
 Si es necesario puede llamar a otros Servicios para recuperar cierta información que no sea de su ámbito / competencia.

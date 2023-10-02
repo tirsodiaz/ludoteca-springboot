@@ -82,6 +82,15 @@ public class BookingServiceImpl implements BookingService {
         return this.bookingRepository.findAll(spec, dto.getPageableRequest().getPageable());
     }
 
+    @Override
+    public List<Booking> findAllBookingbyIdGames(List<Long> idGames) {
+        if (idGames.size() == 2)
+            return this.bookingRepository.findAllBookingQueryBetweentwoIdsGames(idGames.get(0), idGames.get(1));
+        else
+            return this.bookingRepository.findAllBookingDynamicByIdsGames(idGames);
+
+    }
+
     /**
      * {@inheritDoc}
      * 

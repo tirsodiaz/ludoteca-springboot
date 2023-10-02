@@ -4,6 +4,7 @@ import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
+import java.util.Arrays;
 import java.util.List;
 import java.util.TimeZone;
 import java.util.stream.Collectors;
@@ -116,6 +117,31 @@ public class BookingController {
             return bookingDto;
         }).collect(Collectors.toList()), page.getPageable(), page.getTotalElements());
 
+    }
+
+    @Operation(summary = "FindBooking by game id list", description = "Method that return a filtered list of Booking by game id list")
+    @RequestMapping(path = "", method = RequestMethod.GET)
+    public List<BookingDto> findBookingbyIdGames(@RequestParam(value = "idgames", required = false) String idgames) {
+
+        List<CustomerDto> customers = customerClient.findAll();
+        List<GameDto> games = gameClient.find(null, null);
+
+        List<Long> gameList = Arrays.asList(idgames.split(",")).stream().map(i -> Long.valueOf(i)).toList();
+        List<Booking> bookings = bookingService.findAllBookingbyIdGames(gameList);
+
+        return bookings.stream().map(booking -> {
+            BookingDto bookingDto = new BookingDto();
+
+            bookingDto.setId(booking.getId());
+            bookingDto.setInicio(booking.getInicio());
+            bookingDto.setFin(booking.getFin());
+            bookingDto.setCustomer(customers.stream()
+                    .filter(customer -> customer.getId().equals(booking.getIdCustomer())).findFirst().orElse(null));
+            bookingDto.setGame(
+                    games.stream().filter(game -> game.getId().equals(booking.getIdGame())).findFirst().orElse(null));
+
+            return bookingDto;
+        }).collect(Collectors.toList());
     }
 
     /**
