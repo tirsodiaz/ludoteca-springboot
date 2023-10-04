@@ -32,7 +32,7 @@ public class BookingSpecification implements Specification<Booking> {
                 return builder.equal(path, criteria.getValue());
             }
         } else if (criteria.getOperation().equalsIgnoreCase("in") && criteria.getValue() != null) {
-            return builder.in(root.get("idGame")).value(criteria.getValue());
+            return builder.in(root.get(criteria.getKey())).value(criteria.getValue());
         } else if (criteria.getOperation().equalsIgnoreCase(">=") && criteria.getValue() != null) {
             return builder.greaterThanOrEqualTo(root.get(criteria.getKey()), criteria.getValue().toString());
         } else if (criteria.getOperation().equalsIgnoreCase("<=") && criteria.getValue() != null) {

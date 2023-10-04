@@ -30,8 +30,11 @@ npm uninstall -g angular-cli (ayuda en https://angular.io/cli#command-overview)
 npm cache clean -force npm cache clear --force
 npm config set registry https://registry.npmjs.org
 npm config get registry
+npm install moment --save
+npm install moment-timezone --save 
+npm ls moment
 crear proyecto desde terminal visual studio ng new carpetaproyecto --strict=false
-ng serve arrancar el proyecto dvisualesde carpeta proyecto (comprobar http://localhost:4200/)
+ng serve arrancar el proyecto visual desde carpeta proyecto (comprobar http://localhost:4200/)
 ng add @angular/material (añadir librería de componentes)
 ng generate module core (CREATE src/app/core/core.module.ts)
 ng generate component core/header
@@ -42,7 +45,7 @@ ng generate component category/category-edit
 
 Un linter es una herramienta que nos ayuda a seguir las buenas prácticas o guías de estilo de nuestro código fuente
 Git Hooks son scripts de shell que se ejecutan automáticamente antes o después de Commit o Push
-No declarar los servicios en el provides, sino usar un decorador
+No declarar los servicios en el provides, usar un decorador
 Lazy Load es un patrón de diseño que consiste en retrasar la carga o inicialización
 https://angular.io/docs (documentación angular) 
 https://material.angular.io/components/categories (web de componentes)
