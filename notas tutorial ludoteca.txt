@@ -11,7 +11,7 @@ C:\securitas\software\apache-maven-3.6.3\bin
 sourcetre https://www.youtube.com/watch?v=NwlZZfcv400
 github https://github.com/tirsodiaz
 
-angular a partir de la4, no angular js (angular js que es diferente a nodejs)
+angular a partir de la 4, no angular js
 servicios de angular
 type script librería
 curso capgemini
