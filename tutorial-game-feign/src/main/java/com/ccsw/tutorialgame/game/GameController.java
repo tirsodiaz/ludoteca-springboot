@@ -54,12 +54,13 @@ public class GameController {
     @Operation(summary = "Find", description = "Method that return a filtered list of Games")
     @RequestMapping(path = "", method = RequestMethod.GET)
     public List<GameDto> find(@RequestParam(value = "title", required = false) String title,
-            @RequestParam(value = "idCategory", required = false) Long idCategory) {
+            @RequestParam(value = "idCategory", required = false) Long idCategory,
+            @RequestParam(value = "idAuthor", required = false) Long idAuthor) {
 
         List<CategoryDto> categories = categoryClient.findAll();
         List<AuthorDto> authors = authorClient.findAll();
 
-        List<Game> games = gameService.find(title, idCategory);
+        List<Game> games = gameService.find(title, idCategory, idAuthor);
         return games.stream().map(game -> {
             GameDto gameDto = new GameDto();
 

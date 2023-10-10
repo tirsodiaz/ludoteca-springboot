@@ -65,7 +65,7 @@ public class PageableRequest implements Serializable {
     }
 
     @JsonIgnore
-    public org.springframework.data.domain.Pageable getPageable() {
+    public org.springframework.data.domain.Pageable buidPageable() {
 
         return PageRequest.of(this.pageNumber, this.pageSize, Sort.by(sort.stream()
                 .map(e -> new Sort.Order(e.getDirection(), e.getProperty())).collect(Collectors.toList())));

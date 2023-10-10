@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.ccsw.tutorialauthor.author.model.Author;
 import com.ccsw.tutorialauthor.author.model.AuthorDto;
 import com.ccsw.tutorialauthor.common.pagination.WrapperPageableRequest;
+import com.ccsw.tutorialauthor.exception.MyBadAdviceException;
 
 import jakarta.transaction.Transactional;
 
@@ -39,7 +40,7 @@ public class AuthorServiceImpl implements AuthorService {
     @Override
     public Page<Author> findPage(WrapperPageableRequest dto) {
 
-        return this.authorRepository.findAll(dto.getPageableRequest().getPageable());
+        return this.authorRepository.findAll(dto.getPageableRequest().buidPageable());
     }
 
     /**
@@ -64,6 +65,8 @@ public class AuthorServiceImpl implements AuthorService {
         } else {
             author = this.get(id);
         }
+        if (author == null)
+            throw new MyBadAdviceException("Author id doesn't exit");
 
         BeanUtils.copyProperties(data, author, "id");
 
@@ -79,8 +82,10 @@ public class AuthorServiceImpl implements AuthorService {
         if (this.get(id) == null) {
             throw new Exception("Not exists");
         }
-
-        this.authorRepository.deleteById(id);
+//        if (gameClient.find(null, null, id) == null)
+//            this.authorRepository.deleteById(id);
+//        else
+//            throw new Exception("Author already used!");
     }
 
 }

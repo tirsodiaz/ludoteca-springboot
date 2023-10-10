@@ -23,13 +23,13 @@ public class GameSpecification implements Specification<Game> {
     }
 
     @Override
-    public Predicate toPredicate(Root<Game> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
+    public Predicate toPredicate(Root<Game> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
         if (criteria.getOperation().equalsIgnoreCase(":") && criteria.getValue() != null) {
             Path<String> path = getPath(root);
             if (path.getJavaType() == String.class) {
-                return builder.like(path, "%" + criteria.getValue() + "%");
+                return cb.like(path, "%" + criteria.getValue() + "%");
             } else {
-                return builder.equal(path, criteria.getValue());
+                return cb.equal(path, criteria.getValue());
             }
         }
         return null;

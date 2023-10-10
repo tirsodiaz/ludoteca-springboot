@@ -1,4 +1,4 @@
-package com.ccsw.tutorialbooking.game;
+package com.ccsw.tutorialautor.game;
 
 import java.util.List;
 
@@ -6,7 +6,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.ccsw.tutorialbooking.game.model.GameDto;
+import com.ccsw.tutorialautor.game.model.GameDto;
 
 @FeignClient(value = "SPRING-CLOUD-EUREKA-CLIENT-GAME", url = "http://localhost:8080")
 public interface GameClient {

@@ -49,7 +49,7 @@ public class GameController {
 
         List<Game> games = gameService.find(title, idCategory);
 
-        return games.stream().map(e -> mapper.map(e, GameDto.class)).collect(Collectors.toList());
+        return games.stream().map(g -> mapper.map(g, GameDto.class)).collect(Collectors.toList());
     }
 
     /**

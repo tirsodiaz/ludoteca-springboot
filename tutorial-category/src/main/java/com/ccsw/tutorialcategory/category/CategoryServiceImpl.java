@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.ccsw.tutorialcategory.category.model.Category;
 import com.ccsw.tutorialcategory.category.model.CategoryDto;
+import com.ccsw.tutorialcategory.exception.MyBadAdviceException;
 
 import jakarta.transaction.Transactional;
 
@@ -53,8 +54,10 @@ public class CategoryServiceImpl implements CategoryService {
             category = this.get(id);
         }
 
-        category.setName(dto.getName());
+        if (category == null)
+            throw new MyBadAdviceException("Category id doesn't exist");
 
+        category.setName(dto.getName()); // BeanUtils.copyProperties(dto, category, "id");
         this.categoryRepository.save(category);
     }
 

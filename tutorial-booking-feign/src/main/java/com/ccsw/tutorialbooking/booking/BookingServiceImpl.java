@@ -112,7 +112,9 @@ public class BookingServiceImpl implements BookingService {
         OffsetDateTime finodt = OffsetDateTime.parse(dto.getFin().toString());
         Instant finInstant = dto.getFin().withOffsetSameInstant(zoneOffset).toInstant();
         Instant inicioInstant = dto.getInicio().toZonedDateTime().toInstant();
-        if (finInstant.isBefore(inicioInstant) || dto.getFin().isBefore(dto.getInicio())) {
+
+        if (finInstant.isBefore(inicioInstant) || dto.getFin().isBefore(dto.getInicio())
+                || Duration.between(inicioInstant, finInstant).isNegative()) {
             // throw new MyBadException("Fecha Inicio > Fecha Fin");
             throw new MyBadAdviceException("Fecha Inicio > Fecha Fin");
         }
@@ -173,8 +175,8 @@ public class BookingServiceImpl implements BookingService {
             // throw new MyConflictException(sb.toString());
             throw new MyConflictAdviceException(sb.toString());
         }
-
         // fin reglas de negocio
+
         if (id == null) {
             booking = new Booking();
         } else {

@@ -23,20 +23,20 @@ public class BookingSpecification implements Specification<Booking> {
     }
 
     @Override
-    public Predicate toPredicate(Root<Booking> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
+    public Predicate toPredicate(Root<Booking> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
         if (criteria.getOperation().equalsIgnoreCase(":") && criteria.getValue() != null) {
             Path<String> path = getPath(root);
             if (path.getJavaType() == String.class) {
-                return builder.like(path, "%" + criteria.getValue() + "%");
+                return cb.like(path, "%" + criteria.getValue() + "%");
             } else {
-                return builder.equal(path, criteria.getValue());
+                return cb.equal(path, criteria.getValue());
             }
         } else if (criteria.getOperation().equalsIgnoreCase("in") && criteria.getValue() != null) {
-            return builder.in(root.get(criteria.getKey())).value(criteria.getValue());
+            return cb.in(root.get(criteria.getKey())).value(criteria.getValue());
         } else if (criteria.getOperation().equalsIgnoreCase(">=") && criteria.getValue() != null) {
-            return builder.greaterThanOrEqualTo(root.get(criteria.getKey()), criteria.getValue().toString());
+            return cb.greaterThanOrEqualTo(root.get(criteria.getKey()), criteria.getValue().toString());
         } else if (criteria.getOperation().equalsIgnoreCase("<=") && criteria.getValue() != null) {
-            return builder.lessThanOrEqualTo(root.get(criteria.getKey()), criteria.getValue().toString());
+            return cb.lessThanOrEqualTo(root.get(criteria.getKey()), criteria.getValue().toString());
         }
         return null;
     }

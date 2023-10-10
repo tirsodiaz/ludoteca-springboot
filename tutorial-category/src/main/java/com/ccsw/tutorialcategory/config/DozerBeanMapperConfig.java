@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
  * 
  */
 @Configuration
-public class BeanDozerConfig {
+public class DozerBeanMapperConfig {
 
     @Bean
     public DozerBeanMapper getDozerBeanMapper() {

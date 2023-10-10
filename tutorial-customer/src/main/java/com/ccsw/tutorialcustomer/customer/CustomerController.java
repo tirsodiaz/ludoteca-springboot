@@ -49,7 +49,7 @@ public class CustomerController {
     public List<CustomerDto> findAll() {
 
         List<Customer> customers = this.customerService.findAll();
-        return customers.stream().map(e -> mapper.map(e, CustomerDto.class)).collect(Collectors.toList());
+        return customers.stream().map(c -> mapper.map(c, CustomerDto.class)).collect(Collectors.toList());
     }
 
     /**

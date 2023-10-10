@@ -92,7 +92,7 @@ public class BookingController {
         }
 
         List<CustomerDto> customers = customerClient.findAll();
-        List<GameDto> games = gameClient.find(null, null);
+        List<GameDto> games = gameClient.find(null, null, null);
         List<Long> idGames = null;
         if (titulo != null) {
             idGames = games.stream().filter(g -> g.getTitle().contains(titulo)).map(g -> g.getId())
@@ -124,7 +124,7 @@ public class BookingController {
     public List<BookingDto> findBookingbyIdGames(@RequestParam(value = "idgames", required = false) String idgames) {
 
         List<CustomerDto> customers = customerClient.findAll();
-        List<GameDto> games = gameClient.find(null, null);
+        List<GameDto> games = gameClient.find(null, null, null);
 
         List<Long> gameList = Arrays.asList(idgames.split(",")).stream().map(i -> Long.valueOf(i)).toList();
         List<Booking> bookings = bookingService.findAllBookingbyIdGames(gameList);

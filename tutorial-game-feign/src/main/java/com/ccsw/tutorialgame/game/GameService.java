@@ -16,9 +16,10 @@ public interface GameService {
      *
      * @param title      título del juego
      * @param idCategory PK de la categoría
+     * @param idCategory PK del autor
      * @return {@link List} de {@link Game}
      */
-    List<Game> find(String title, Long idCategory);
+    List<Game> find(String title, Long idCategory, Long idAuthor);
 
     /**
      * Guarda o modifica un juego, dependiendo de si el identificador está o no

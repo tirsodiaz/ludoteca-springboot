@@ -44,7 +44,7 @@ public class CategoryController {
     public List<CategoryDto> findAll() {
 
         List<Category> categories = this.categoryService.findAll();
-        return categories.stream().map(e -> mapper.map(e, CategoryDto.class)).collect(Collectors.toList());
+        return categories.stream().map(c -> mapper.map(c, CategoryDto.class)).collect(Collectors.toList());
     }
 
     /**

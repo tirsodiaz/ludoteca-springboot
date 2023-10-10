@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ccsw.tutorialauthor.author.model.Author;
 import com.ccsw.tutorialauthor.author.model.AuthorDto;
 import com.ccsw.tutorialauthor.common.pagination.WrapperPageableRequest;
+import com.ccsw.tutorialautor.game.GameClient;
+import com.ccsw.tutorialautor.game.model.GameDto;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -37,6 +39,9 @@ public class AuthorController {
     @Autowired
     DozerBeanMapper mapper;
 
+    @Autowired
+    GameClient gameClient;
+
     /**
      * Método para recuperar un listado paginado de {@link Author}
      *
@@ -50,7 +55,7 @@ public class AuthorController {
         Page<Author> page = this.authorService.findPage(dto);
 
         return new PageImpl<>(
-                page.getContent().stream().map(e -> mapper.map(e, AuthorDto.class)).collect(Collectors.toList()),
+                page.getContent().stream().map(a -> mapper.map(a, AuthorDto.class)).collect(Collectors.toList()),
                 page.getPageable(), page.getTotalElements());
     }
 
@@ -65,7 +70,7 @@ public class AuthorController {
 
         List<Author> authors = this.authorService.findAll();
 
-        return authors.stream().map(e -> mapper.map(e, AuthorDto.class)).collect(Collectors.toList());
+        return authors.stream().map(a -> mapper.map(a, AuthorDto.class)).collect(Collectors.toList());
     }
 
     /**
@@ -89,8 +94,12 @@ public class AuthorController {
     @Operation(summary = "Delete", description = "Method that deletes a Author")
     @RequestMapping(path = "/{id}", method = RequestMethod.DELETE)
     public void delete(@PathVariable("id") Long id) throws Exception {
+        List<GameDto> find = gameClient.find(null, null, id);
+        if (find == null)
+            this.authorService.delete(id);
+        else
+            throw new Exception("Author already used!");
 
-        this.authorService.delete(id);
     }
 
 }

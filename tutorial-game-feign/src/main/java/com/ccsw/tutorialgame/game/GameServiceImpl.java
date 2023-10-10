@@ -34,13 +34,14 @@ public class GameServiceImpl implements GameService {
      * {@inheritDoc}
      */
     @Override
-    public List<Game> find(String title, Long idCategory) {
+    public List<Game> find(String title, Long idCategory, Long idAuthor) {
 
         GameSpecification titleSpec = new GameSpecification(new SearchCriteria("title", ":", title));
         GameSpecification categorySpec = new GameSpecification(new SearchCriteria("category.id", ":", idCategory));
 
         // si no objetos
         categorySpec = new GameSpecification(new SearchCriteria("idCategory", ":", idCategory));
+        categorySpec = new GameSpecification(new SearchCriteria("idAuthor", ":", idAuthor));
 
         Specification<Game> spec = Specification.where(titleSpec).and(categorySpec);
 

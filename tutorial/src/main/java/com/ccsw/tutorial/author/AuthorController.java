@@ -50,7 +50,7 @@ public class AuthorController {
         Page<Author> page = this.authorService.findPage(dto);
 
         return new PageImpl<>(
-                page.getContent().stream().map(e -> mapper.map(e, AuthorDto.class)).collect(Collectors.toList()),
+                page.getContent().stream().map(a -> mapper.map(a, AuthorDto.class)).collect(Collectors.toList()),
                 page.getPageable(), page.getTotalElements());
     }
 
@@ -65,7 +65,7 @@ public class AuthorController {
 
         List<Author> authors = this.authorService.findAll();
 
-        return authors.stream().map(e -> mapper.map(e, AuthorDto.class)).collect(Collectors.toList());
+        return authors.stream().map(c -> mapper.map(c, AuthorDto.class)).collect(Collectors.toList());
     }
 
     /**

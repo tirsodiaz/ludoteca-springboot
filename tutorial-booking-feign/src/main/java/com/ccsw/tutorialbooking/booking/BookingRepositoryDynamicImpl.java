@@ -24,23 +24,30 @@ public class BookingRepositoryDynamicImpl implements BookingRepositoryDynamic {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<Booking> query = cb.createQuery(Booking.class);
         Root<Booking> bookingRoot = query.from(Booking.class);
+        List<Predicate> predicates = new ArrayList<>();
 
         In<String> inClause = cb.in(bookingRoot.get("idGame"));
         for (Long idGame : idsGames) {
             inClause.value(String.valueOf(idGame));
         }
+        // predicates.add(inClause);
+        // query.select(bookingRoot).where(predicates.get(0));
         query.select(bookingRoot).where(inClause);
         List<Booking> resultList = entityManager.createQuery(query).getResultList();
 
-        List<Predicate> predicates = new ArrayList<>();
         Path<String> idgamePath = bookingRoot.get("idGame");
         Predicate in = idgamePath.in(idsGames);
-        predicates.add(in);
+        // predicates.add(in);
+        // predicates.add(inClause);
+        // predicates.add(cb.like(idgamePath, "%2%"));
+        // predicates.add(cb.equal(idgamePath, 2));
+        // predicates.add(cb.greaterThanOrEqualTo(idgamePath, "2"));
+        // predicates.add(cb.lessThanOrEqualTo(idgamePath, "2"));
         // predicates.add(cb.equal(bookingRoot.get("idCustomer"), 2));
         query.select(bookingRoot).where(in);
         resultList = entityManager.createQuery(query).getResultList();
-
-        query.select(bookingRoot).where(cb.and(predicates.toArray(new Predicate[predicates.size()])));
+        Predicate[] arrayPredicates = new Predicate[predicates.size()];
+        query.select(bookingRoot).where(cb.and(predicates.toArray(arrayPredicates)));
         return entityManager.createQuery(query).getResultList();
     }
 }
