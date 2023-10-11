@@ -5,8 +5,12 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ccsw.tutorialcustomer.customer.exception.MyConflictAdviceException;
+import com.ccsw.tutorialcustomer.customer.exception.MyConflictException;
 import com.ccsw.tutorialcustomer.customer.model.Customer;
 import com.ccsw.tutorialcustomer.customer.model.CustomerDto;
+import com.ccsw.tutorialcustomer.feignclient.BookingClient;
+import com.ccsw.tutorialcustomer.model.BookingDto;
 
 import jakarta.transaction.Transactional;
 
@@ -20,6 +24,9 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Autowired
     CustomerRepository customerRepository;
+
+    @Autowired
+    BookingClient bookingClient;
 
     /**
      * {@inheritDoc}
@@ -52,7 +59,7 @@ public class CustomerServiceImpl implements CustomerService {
         boolean exists = findAll().stream().filter(c -> c.getName().equalsIgnoreCase(dto.getName())).findFirst()
                 .isPresent();
         if (exists) {
-            throw new MyException("Cliente nombre duplicadoooo");
+            throw new MyConflictException("Cliente nombre duplicadoooo");
         }
 
         if (id == null) {
@@ -60,7 +67,7 @@ public class CustomerServiceImpl implements CustomerService {
         } else {
             customer = this.get(id);
             if (customer == null) {
-                throw new MyException("Cliente id no existe");
+                throw new MyConflictException("Cliente id no existe");
             }
         }
 
@@ -79,7 +86,11 @@ public class CustomerServiceImpl implements CustomerService {
             throw new Exception("Not exists");
         }
 
-        this.customerRepository.deleteById(id);
+        List<BookingDto> bookings = bookingClient.findBookingbyIdGamesOrIdCustomer(null, id);
+        if (bookings.isEmpty() || bookings.size() == 0)
+            this.customerRepository.deleteById(id);
+        else
+            throw new MyConflictAdviceException("Customer already used in booking!");
     }
 
     @Override

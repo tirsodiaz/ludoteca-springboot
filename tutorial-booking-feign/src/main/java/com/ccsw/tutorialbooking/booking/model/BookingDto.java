@@ -2,8 +2,8 @@ package com.ccsw.tutorialbooking.booking.model;
 
 import java.time.OffsetDateTime;
 
-import com.ccsw.tutorialbooking.customer.model.CustomerDto;
-import com.ccsw.tutorialbooking.game.model.GameDto;
+import com.ccsw.tutorialbooking.model.CustomerDto;
+import com.ccsw.tutorialbooking.model.GameDto;
 
 /**
  * @author ccsw

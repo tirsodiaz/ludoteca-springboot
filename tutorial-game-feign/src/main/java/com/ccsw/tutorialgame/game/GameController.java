@@ -12,12 +12,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ccsw.tutorialgame.author.AuthorClient;
-import com.ccsw.tutorialgame.author.model.AuthorDto;
-import com.ccsw.tutorialgame.category.CategoryClient;
-import com.ccsw.tutorialgame.category.model.CategoryDto;
+import com.ccsw.tutorialgame.feignclient.AuthorClient;
+import com.ccsw.tutorialgame.feignclient.CategoryClient;
 import com.ccsw.tutorialgame.game.model.Game;
 import com.ccsw.tutorialgame.game.model.GameDto;
+import com.ccsw.tutorialgame.model.AuthorDto;
+import com.ccsw.tutorialgame.model.CategoryDto;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -87,6 +87,18 @@ public class GameController {
     public void save(@PathVariable(name = "id", required = false) Long id, @RequestBody GameDto dto) {
 
         gameService.save(id, dto);
+    }
+
+    /**
+     * Método para borrar un game
+     *
+     * @param id PK de la entidad
+     * @throws Exception
+     */
+    @Operation(summary = "Delete", description = "Method that deletes a Game")
+    @RequestMapping(path = "/{id}", method = RequestMethod.DELETE)
+    public void delete(@PathVariable("id") Long id) throws Exception {
+        this.gameService.delete(id);
     }
 
 }

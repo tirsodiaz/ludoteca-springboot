@@ -20,14 +20,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ccsw.tutorialbooking.booking.exceptions.MyBadException;
-import com.ccsw.tutorialbooking.booking.exceptions.MyConflictException;
+import com.ccsw.tutorialbooking.booking.exception.MyBadException;
+import com.ccsw.tutorialbooking.booking.exception.MyConflictException;
 import com.ccsw.tutorialbooking.booking.model.Booking;
 import com.ccsw.tutorialbooking.booking.model.BookingDto;
-import com.ccsw.tutorialbooking.customer.CustomerClient;
-import com.ccsw.tutorialbooking.customer.model.CustomerDto;
-import com.ccsw.tutorialbooking.game.GameClient;
-import com.ccsw.tutorialbooking.game.model.GameDto;
+import com.ccsw.tutorialbooking.feignclient.CustomerClient;
+import com.ccsw.tutorialbooking.feignclient.GameClient;
+import com.ccsw.tutorialbooking.model.CustomerDto;
+import com.ccsw.tutorialbooking.model.GameDto;
 import com.ccsw.tutorialbooking.pagination.WrapperPageableRequest;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -121,13 +121,19 @@ public class BookingController {
 
     @Operation(summary = "FindBooking by game id list", description = "Method that return a filtered list of Booking by game id list")
     @RequestMapping(path = "", method = RequestMethod.GET)
-    public List<BookingDto> findBookingbyIdGames(@RequestParam(value = "idgames", required = false) String idgames) {
+    public List<BookingDto> findBookingbyIdGames(@RequestParam(value = "idgames", required = false) String idgames,
+            @RequestParam(value = "idCustomer", required = false) Long idCustomer) {
 
         List<CustomerDto> customers = customerClient.findAll();
         List<GameDto> games = gameClient.find(null, null, null);
 
-        List<Long> gameList = Arrays.asList(idgames.split(",")).stream().map(i -> Long.valueOf(i)).toList();
-        List<Booking> bookings = bookingService.findAllBookingbyIdGames(gameList);
+        List<Booking> bookings = null;
+        if (idgames != null) {
+            List<Long> gameList = Arrays.asList(idgames.split(",")).stream().map(i -> Long.valueOf(i)).toList();
+            bookings = bookingService.findAllBookingbyIdGames(gameList);
+        } else if (idCustomer != null) {
+            bookings = bookingService.findAllBookingbyIdCustomer(idCustomer);
+        }
 
         return bookings.stream().map(booking -> {
             BookingDto bookingDto = new BookingDto();

@@ -7,10 +7,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
+import com.ccsw.tutorialauthor.author.exception.MyBadAdviceException;
+import com.ccsw.tutorialauthor.author.exception.MyConflictAdviceException;
 import com.ccsw.tutorialauthor.author.model.Author;
 import com.ccsw.tutorialauthor.author.model.AuthorDto;
-import com.ccsw.tutorialauthor.common.pagination.WrapperPageableRequest;
-import com.ccsw.tutorialauthor.exception.MyBadAdviceException;
+import com.ccsw.tutorialauthor.feignclient.GameClient;
+import com.ccsw.tutorialauthor.model.GameDto;
+import com.ccsw.tutorialauthor.pagination.WrapperPageableRequest;
 
 import jakarta.transaction.Transactional;
 
@@ -24,6 +27,9 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Autowired
     AuthorRepository authorRepository;
+
+    @Autowired
+    GameClient gameClient;
 
     /**
      * {@inheritDoc}
@@ -82,10 +88,12 @@ public class AuthorServiceImpl implements AuthorService {
         if (this.get(id) == null) {
             throw new Exception("Not exists");
         }
-//        if (gameClient.find(null, null, id) == null)
-//            this.authorRepository.deleteById(id);
-//        else
-//            throw new Exception("Author already used!");
+
+        List<GameDto> games = gameClient.find(null, null, id);
+        if (games.size() == 0 || games.isEmpty())
+            this.authorRepository.deleteById(id);
+        else
+            throw new MyConflictAdviceException("Author already used in game!");
     }
 
 }

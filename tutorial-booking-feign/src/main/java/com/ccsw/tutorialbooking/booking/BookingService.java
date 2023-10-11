@@ -5,8 +5,8 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 
-import com.ccsw.tutorialbooking.booking.exceptions.MyBadException;
-import com.ccsw.tutorialbooking.booking.exceptions.MyConflictException;
+import com.ccsw.tutorialbooking.booking.exception.MyBadException;
+import com.ccsw.tutorialbooking.booking.exception.MyConflictException;
 import com.ccsw.tutorialbooking.booking.model.Booking;
 import com.ccsw.tutorialbooking.booking.model.BookingDto;
 import com.ccsw.tutorialbooking.pagination.WrapperPageableRequest;
@@ -56,4 +56,6 @@ public interface BookingService {
      * @return {@link Booking}
      */
     Booking get(Long id);
+
+    List<Booking> findAllBookingbyIdCustomer(Long idCustomer);
 }

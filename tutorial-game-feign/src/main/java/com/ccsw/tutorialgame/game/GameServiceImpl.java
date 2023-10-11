@@ -8,8 +8,11 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.ccsw.tutorialgame.common.criteria.SearchCriteria;
+import com.ccsw.tutorialgame.feignclient.BookingClient;
+import com.ccsw.tutorialgame.game.exception.MyConflictAdviceException;
 import com.ccsw.tutorialgame.game.model.Game;
 import com.ccsw.tutorialgame.game.model.GameDto;
+import com.ccsw.tutorialgame.model.BookingDto;
 
 import jakarta.transaction.Transactional;
 
@@ -24,6 +27,9 @@ public class GameServiceImpl implements GameService {
     @Autowired
     GameRepository gameRepository;
 
+    @Autowired
+    BookingClient bookingClient;
+
     /*
      * @Autowired AuthorService authorService;
      * 
@@ -36,14 +42,15 @@ public class GameServiceImpl implements GameService {
     @Override
     public List<Game> find(String title, Long idCategory, Long idAuthor) {
 
-        GameSpecification titleSpec = new GameSpecification(new SearchCriteria("title", ":", title));
-        GameSpecification categorySpec = new GameSpecification(new SearchCriteria("category.id", ":", idCategory));
+        GameSpecification titleSpec, categorySpec, authorSpec;
+        titleSpec = new GameSpecification(new SearchCriteria("title", ":", title));
+        categorySpec = new GameSpecification(new SearchCriteria("category.id", ":", idCategory));
 
         // si no objetos
         categorySpec = new GameSpecification(new SearchCriteria("idCategory", ":", idCategory));
-        categorySpec = new GameSpecification(new SearchCriteria("idAuthor", ":", idAuthor));
+        authorSpec = new GameSpecification(new SearchCriteria("idAuthor", ":", idAuthor));
 
-        Specification<Game> spec = Specification.where(titleSpec).and(categorySpec);
+        Specification<Game> spec = Specification.where(titleSpec).and(categorySpec).and(authorSpec);
 
         return this.gameRepository.findAll(spec);
     }
@@ -68,6 +75,28 @@ public class GameServiceImpl implements GameService {
         game.setIdAuthor(dto.getAuthor().getId());
 
         this.gameRepository.save(game);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void delete(Long id) throws Exception {
+
+        if (this.get(id) == null) {
+            throw new Exception("Not exists");
+        }
+
+        List<BookingDto> bookings = bookingClient.findBookingbyIdGamesOrIdCustomer(String.valueOf(id), null);
+        if (bookings.isEmpty() || bookings.size() == 0)
+            this.gameRepository.deleteById(id);
+        else
+            throw new MyConflictAdviceException("Game already used in booking!");
+    }
+
+    private Game get(Long id) {
+
+        return this.gameRepository.findById(id).orElse(null);
     }
 
 }

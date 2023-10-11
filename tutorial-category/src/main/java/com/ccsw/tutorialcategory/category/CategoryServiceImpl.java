@@ -8,6 +8,9 @@ import org.springframework.stereotype.Service;
 import com.ccsw.tutorialcategory.category.model.Category;
 import com.ccsw.tutorialcategory.category.model.CategoryDto;
 import com.ccsw.tutorialcategory.exception.MyBadAdviceException;
+import com.ccsw.tutorialcategory.exception.MyConflictAdviceException;
+import com.ccsw.tutorialcategory.feignclient.GameClient;
+import com.ccsw.tutorialcategory.model.GameDto;
 
 import jakarta.transaction.Transactional;
 
@@ -21,6 +24,9 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Autowired
     CategoryRepository categoryRepository;
+
+    @Autowired
+    GameClient gameClient;
 
     /**
      * {@inheritDoc}
@@ -71,7 +77,12 @@ public class CategoryServiceImpl implements CategoryService {
             throw new Exception("Not exists");
         }
 
-        this.categoryRepository.deleteById(id);
+        List<GameDto> games = gameClient.find(null, id, null);
+        if (games.isEmpty() || games.size() == 0)
+            this.categoryRepository.deleteById(id);
+        else
+            throw new MyConflictAdviceException("Category already used in game!");
+
     }
 
 }

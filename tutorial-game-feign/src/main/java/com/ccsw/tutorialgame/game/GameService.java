@@ -30,4 +30,9 @@ public interface GameService {
      */
     void save(Long id, GameDto dto);
 
+    /**
+     * {@inheritDoc}
+     */
+    void delete(Long id) throws Exception;
+
 }

@@ -17,10 +17,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.ccsw.tutorialbooking.booking.exceptions.MyBadAdviceException;
-import com.ccsw.tutorialbooking.booking.exceptions.MyBadException;
-import com.ccsw.tutorialbooking.booking.exceptions.MyConflictAdviceException;
-import com.ccsw.tutorialbooking.booking.exceptions.MyConflictException;
+import com.ccsw.tutorialbooking.booking.exception.MyBadAdviceException;
+import com.ccsw.tutorialbooking.booking.exception.MyBadException;
+import com.ccsw.tutorialbooking.booking.exception.MyConflictAdviceException;
+import com.ccsw.tutorialbooking.booking.exception.MyConflictException;
 import com.ccsw.tutorialbooking.booking.model.Booking;
 import com.ccsw.tutorialbooking.booking.model.BookingDto;
 import com.ccsw.tutorialbooking.common.criteria.SearchCriteria;
@@ -89,6 +89,11 @@ public class BookingServiceImpl implements BookingService {
         else
             return this.bookingRepository.findAllBookingDynamicByIdsGames(idGames);
 
+    }
+
+    @Override
+    public List<Booking> findAllBookingbyIdCustomer(Long idCustomer) {
+        return this.bookingRepository.findByidCustomer(idCustomer);
     }
 
     /**

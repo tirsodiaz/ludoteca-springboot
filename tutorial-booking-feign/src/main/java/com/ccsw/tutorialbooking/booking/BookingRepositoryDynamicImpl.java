@@ -46,6 +46,7 @@ public class BookingRepositoryDynamicImpl implements BookingRepositoryDynamic {
         // predicates.add(cb.equal(bookingRoot.get("idCustomer"), 2));
         query.select(bookingRoot).where(in);
         resultList = entityManager.createQuery(query).getResultList();
+        predicates.add(inClause);
         Predicate[] arrayPredicates = new Predicate[predicates.size()];
         query.select(bookingRoot).where(cb.and(predicates.toArray(arrayPredicates)));
         return entityManager.createQuery(query).getResultList();

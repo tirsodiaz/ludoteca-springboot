@@ -6,7 +6,7 @@ import org.springframework.data.domain.Page;
 
 import com.ccsw.tutorialauthor.author.model.Author;
 import com.ccsw.tutorialauthor.author.model.AuthorDto;
-import com.ccsw.tutorialauthor.common.pagination.WrapperPageableRequest;
+import com.ccsw.tutorialauthor.pagination.WrapperPageableRequest;
 
 /**
  * @author ccsw
