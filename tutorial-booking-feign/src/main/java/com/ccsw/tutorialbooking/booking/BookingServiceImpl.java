@@ -79,7 +79,9 @@ public class BookingServiceImpl implements BookingService {
 
         Specification<Booking> spec = Specification.where(customerSpec).and(inicioSpec).and(finSpec).and(tituloSpec);
 
-        return this.bookingRepository.findAll(spec, dto.getPageableRequest().getPageable());
+        // return this.bookingRepository.findAll(spec, dto.getPageableRequest().getPageable());
+        return this.bookingRepository.findPageAllBookingDynamic(idCustomer, inicio, fin, idGames,
+                dto.getPageableRequest().getPageable());
     }
 
     @Override
@@ -87,8 +89,7 @@ public class BookingServiceImpl implements BookingService {
         if (idGames.size() == 2)
             return this.bookingRepository.findAllBookingQueryBetweentwoIdsGames(idGames.get(0), idGames.get(1));
         else
-            return this.bookingRepository.findAllBookingDynamicByIdsGames(idGames);
-
+            return this.bookingRepository.findAllBookingDynamic(null, null, null, idGames);
     }
 
     @Override

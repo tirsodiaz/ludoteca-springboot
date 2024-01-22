@@ -35,6 +35,7 @@ public interface BookingRepository
     @Query("SELECT b FROM Booking b WHERE b.idGame BETWEEN ?1 AND ?2")
     List<Booking> findAllBookingQueryBetweentwoIdsGames(long idGame1, long idGame2);
 
-    List<Booking> findAllBookingDynamicByIdsGames(List<Long> idGames);
+    @Query(value = "SELECT b FROM Booking b ORDER BY id")
+    Page<Booking> findAllBookingWithPagination(Pageable pageable);
 
 }

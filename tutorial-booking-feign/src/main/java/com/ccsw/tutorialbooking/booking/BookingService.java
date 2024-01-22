@@ -58,4 +58,5 @@ public interface BookingService {
     Booking get(Long id);
 
     List<Booking> findAllBookingbyIdCustomer(Long idCustomer);
+
 }

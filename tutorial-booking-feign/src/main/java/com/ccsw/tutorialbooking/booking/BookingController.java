@@ -70,6 +70,7 @@ public class BookingController {
             @RequestParam(value = "inicio", required = false) String inicio,
             @RequestParam(value = "fin", required = false) String fin,
             @RequestParam(value = "titulo", required = false) String titulo,
+            @RequestParam(value = "idgames", required = false) String idgames,
             @RequestBody(required = true) WrapperPageableRequest dto) {
 
         TimeZone timeZone = TimeZone.getDefault();
@@ -97,6 +98,8 @@ public class BookingController {
         if (titulo != null) {
             idGames = games.stream().filter(g -> g.getTitle().contains(titulo)).map(g -> g.getId())
                     .collect(Collectors.toList());
+        } else if (idgames != null) {
+            idGames = Arrays.asList(idgames.split(",")).stream().map(i -> Long.valueOf(i)).toList();
         }
 
 //      List<Booking> bookings = bookingService.findAll(idCustomer, inicio, fin, idGames);
@@ -129,8 +132,8 @@ public class BookingController {
 
         List<Booking> bookings = null;
         if (idgames != null) {
-            List<Long> gameList = Arrays.asList(idgames.split(",")).stream().map(i -> Long.valueOf(i)).toList();
-            bookings = bookingService.findAllBookingbyIdGames(gameList);
+            List<Long> idGames = Arrays.asList(idgames.split(",")).stream().map(i -> Long.valueOf(i)).toList();
+            bookings = bookingService.findAllBookingbyIdGames(idGames);
         } else if (idCustomer != null) {
             bookings = bookingService.findAllBookingbyIdCustomer(idCustomer);
         }
