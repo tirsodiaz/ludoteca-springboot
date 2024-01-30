@@ -49,6 +49,10 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public List<Booking> findAll(Long idCustomer, String inicio, String fin, List<Long> idGames) {
 
+        // consultas por nomenclatura
+        // List<Booking> findByidCustomer = bookingRepository.findByidCustomer(idCustomer);
+        // List<Booking> findByidCustomerAndIdGame = bookingRepository.findByidCustomerAndIdGame(idCustomer, idGame);
+
         BookingSpecification customerSpec = new BookingSpecification(new SearchCriteria("idCustomer", ":", idCustomer));
         BookingSpecification inicioSpec = new BookingSpecification(new SearchCriteria("inicio", ">=", inicio));
         BookingSpecification finSpec = new BookingSpecification(new SearchCriteria("fin", "<=", fin));
@@ -66,20 +70,14 @@ public class BookingServiceImpl implements BookingService {
     public Page<Booking> findAll(Long idCustomer, String inicio, String fin, List<Long> idGames,
             WrapperPageableRequest dto) {
 
-        // consultas por nomenclatura
-        // List<Booking> findByidCustomer =
-        // bookingRepository.findByidCustomer(idCustomer);
-        // List<Booking> findByidCustomerAndIdGame =
-        // bookingRepository.findByidCustomerAndIdGame(idCustomer, idGame);
+        // BookingSpecification customerSpec = new BookingSpecification(new SearchCriteria("idCustomer", ":", idCustomer));
+        // BookingSpecification inicioSpec = new BookingSpecification(new SearchCriteria("inicio", ">=", inicio));
+        // BookingSpecification finSpec = new BookingSpecification(new SearchCriteria("fin", "<=", fin));
+        // BookingSpecification tituloSpec = new BookingSpecification(new SearchCriteria("idGame", "in", idGames));
 
-        BookingSpecification customerSpec = new BookingSpecification(new SearchCriteria("idCustomer", ":", idCustomer));
-        BookingSpecification inicioSpec = new BookingSpecification(new SearchCriteria("inicio", ">=", inicio));
-        BookingSpecification finSpec = new BookingSpecification(new SearchCriteria("fin", "<=", fin));
-        BookingSpecification tituloSpec = new BookingSpecification(new SearchCriteria("idGame", "in", idGames));
-
-        Specification<Booking> spec = Specification.where(customerSpec).and(inicioSpec).and(finSpec).and(tituloSpec);
-
+        // Specification<Booking> spec = Specification.where(customerSpec).and(inicioSpec).and(finSpec).and(tituloSpec);
         // return this.bookingRepository.findAll(spec, dto.getPageableRequest().getPageable());
+
         return this.bookingRepository.findPageAllBookingDynamic(idCustomer, inicio, fin, idGames,
                 dto.getPageableRequest().getPageable());
     }
