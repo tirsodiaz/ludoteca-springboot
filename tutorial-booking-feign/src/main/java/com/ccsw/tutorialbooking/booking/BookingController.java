@@ -124,7 +124,8 @@ public class BookingController {
 
     @Operation(summary = "FindBooking by game id list", description = "Method that return a filtered list of Booking by game id list")
     @RequestMapping(path = "", method = RequestMethod.GET)
-    public List<BookingDto> findBookingbyIdGames(@RequestParam(value = "idgames", required = false) String idgames,
+    public List<BookingDto> findBookingbyIdGamesOrIdCustomer(
+            @RequestParam(value = "idgames", required = false) String idgames,
             @RequestParam(value = "idCustomer", required = false) Long idCustomer) {
 
         List<CustomerDto> customers = customerClient.findAll();
